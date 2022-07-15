@@ -41,14 +41,10 @@ def decode(s):
         if c.isalpha():
             if c.isupper():
                 c=c.lower()
-                if c in banned:
-                    raise ValueError
             # Rot13 the character for maximum security
             crypted+=codecs.decode(c,'rot13')
         elif c in digitmapping:
           crypted+=digitmapping[c]
-        else:
-            raise ValueError
-            
+           
     return crypted[:origlen]
 
