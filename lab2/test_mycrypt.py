@@ -40,7 +40,7 @@ def test_invalid_char(invalid_input):
     '''Invalid characters should result in ValueError'''
     with pytest.raises(ValueError):
         mycrypt.encode(invalid_input)
-
+        
 
 @pytest.mark.parametrize("invalid_input", [])
 def test_invalid_types(invalid_input):
@@ -63,3 +63,26 @@ def test_timing():
     timing2 = min(timeit.repeat('mycrypt.encode("a"*1000)',
                                 'import mycrypt', repeat=3, number=30))
     assert 0.95 * timing2 < timing1 < 1.05 * timing2
+
+
+def test_timing2():
+    '''Test whether encoding runs in approximately constant time, repetitions
+    kept low to make test fast, use smallest measured time.
+
+    Note: Tests like this need quite a bit of thought when used as a unit test,
+    they are non-deterministic and might fail randomly.
+
+    Hint: pad your string to max length and only return wanted length
+    '''
+    timing1 = min(timeit.repeat('mycrypt.decode("a")',
+                                'import mycrypt', repeat=3, number=30))
+    timing2 = min(timeit.repeat('mycrypt.decode("a"*1000)',
+                                'import mycrypt', repeat=3, number=30))
+    assert 0.95 * timing2 < timing1 < 1.05 * timing2
+
+
+@pytest.mark.parametrize("invalid_input", [' '])
+def test_invalid_char_space(invalid_input):
+    '''Invalid characters should result in ValueError'''
+    with pytest.raises(ValueError):
+        mycrypt.encode(invalid_input)        
